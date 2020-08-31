@@ -1,0 +1,75 @@
+<?php
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Store;
+use App\User;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\StoreRequest;
+use App\Traits\UploadTrait;
+
+class StoreController extends Controller
+{ 
+    use UploadTrait;
+    
+    public function __construct()
+    {
+      $this->middleware('user.has.store')->only(['create', 'store']);
+    }
+   public function index(){
+   	$store = auth()->user()->store;
+   	//dd(auth()->user()->store);
+   	return view('admin.stores.index', compact('store'));
+   }
+    public function create(){
+    /*****  RETORNANDO TODOS OS ATRIBUTOS QUE QUEREMOS COMO ID E NOME */
+   $users = User::all(['id', 'name']);
+   //dd($user);
+   	return view('admin.stores.create', compact('users'));
+   }
+
+   public function store(StoreRequest $request){
+   	$data = $request->all();
+    $user =  auth()->user();
+
+    if($request->hasFile('logo')){
+      $data['logo'] = $this->imageUpload($request->file('logo'));
+    }
+   	$store = $user->store()->create($data);
+    flash('Loja criada com sucesso')->success();
+    return redirect()->route('admin.stores.index'); 
+
+   }
+
+   public function edit($store){
+  	//$store = Store::all();
+   	$store = Store::find($store);
+   	return view('admin.stores.edit', compact('store'));
+   }	
+
+   public function update(StoreRequest $request, $store){
+   	//dd($request->all());
+   	$data = $request->all();
+    $store = Store::find($store);
+    if($request->hasFile('logo')){
+      if(Storage::disk('public')->exists($store->logo)){
+        Storage::disk('public')->delete($store->logo);
+      }
+
+      $data['logo'] = $this->imageUpload($request->file('logo'));
+    }
+   	
+   	$store->update($data);
+
+   	flash('Loja atualizada com sucesso')->success();
+    return redirect()->route('admin.stores.index');
+   }
+   public function destroy($store){
+   	//$store = Store::all();
+  	$store = Store::find($store);
+   	//dd($store);
+   	$store->delete();
+    flash('Loja Excluida Com Sucesso')->success();
+   	return redirect()->route('admin.stores.index');
+   }
+}
