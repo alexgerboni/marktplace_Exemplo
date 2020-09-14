@@ -2,11 +2,6 @@
 
 @section('content')
     
-    <h3 class="mb-2"> Para ver quantida de compra do produto</h3>
-    <p>
-        <label>Para acessar o carrinho após selecionar a quantindade de produto para ser comprado:</label>
-        <p class="mb-2">http://localhost/marktplace/marktplace_16/public/cart</p>
-    </p>
 
     <div class="row">
     	
@@ -65,7 +60,7 @@
                     <input type="hidden" name="product[slug]" value="{{$product->slug}}">
                         <div class="form-group">
                             <label>Quantidade</label>
-                            <input type="number" name="product[amout]" class="form-control col-md-2" value="1">
+                            <input type="number" name="product[amount]" class="form-control col-md-2" value="1">
                         </div>
                         <button class="btn btn-lg btn-danger">Comprar produto</button>
                 </form>

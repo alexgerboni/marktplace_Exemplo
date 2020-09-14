@@ -1,20 +1,6 @@
 @extends('layouts.front')
 
 @section('content')
-    
-   <h4 class="mb-4">Para acessar a area de login ou registrar
-    <p> 
-        <label>acessar login:</label>
-        ex: http://localhost/marktplace/marktplace_16/public/login
-    </p>
-
-    <p>
-         <label>acessar registrar:</label>
-        ex: http://localhost/marktplace/marktplace_16/public/register
-    </p>
-
-   </h4>
-
 
     <div class="row">
         
@@ -50,7 +36,28 @@
         </div>
             @if(($key + 1) % 3 == 0)</div><div class="row front">@endif
         @endforeach
+    </div>
+    <h1>loja em destaques</h1>
+    <hr>
+    <div class="row">
 
+        @foreach($stores as $store)
+        <div class="col-4">
+           @if($store->logo)
+            <img src="{{asset('storage/' . $store->logo)}}" alt="Logo da Loja {{$store->name}}" class="img-fluid">
+            @else 
+             <img src="{{asset('assets/img/no-photo.jpg')}}" class="img-fluid" alt="Loja nao tem nenhuma imagem">
+           @endif
+            <h3>{{ $store->name }}</h3>
+            <p>
+                {{ $store->description }}
+            </p>
 
+              <p>
+                <a href="{{route('store.single', ['slug' => $store->slug])}}" class="btn btn-sm btn-success"> Ver loja</a>
+            </p>
+
+        </div>
+        @endforeach
     </div>
 @endsection

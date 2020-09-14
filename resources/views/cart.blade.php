@@ -7,6 +7,7 @@
 		<hr>
 	</div>
 	<div class="col-md-12">
+			@if($cart)
 			<table class="table table-striped">
 				<thead>
 					<tr>
@@ -24,13 +25,13 @@
 							<td>{{$cart['name']}}</td>
 							<td> R$ {{number_format($cart['price'], 2, ',', '.')}}</td>
 							@php
-								$subtotal = $cart['price'] * $cart['amout'];
+								$subtotal = $cart['price'] * $cart['amount'];
 								$total += $subtotal;
 							@endphp
-							<td>{{$cart['amout']}}</td>
+							<td>{{$cart['amount']}}</td>
 							<td> R$ {{number_format( $subtotal, 2,',', '.') }}</td>
 							<td>
-								<a href="" class="btn btn-sm btn-danger">Remover</a>
+								<a href="{{route('cart.remove',['slug' => $cart['slug']] )}}" class="btn btn-sm btn-danger">Remover</a>
 							</td>
 						</tr>
 						@endforeach
@@ -40,6 +41,13 @@
 						</tr>
 				</tbody>
 			</table>
+				<div class="col-md-12">
+					<a href="{{route('checkout.index')}}" class="btn btn-lg btn-success pull-right">Concluir Compra</a>
+					<a href="{{route('cart.cancel')}}" class="btn btn-lg btn-danger pull-left">Cancelar Compra</a>
+				</div>
+			@else
+			<div class="alert alert-warning">Carrinho vazio..</div>
+			@endif
 	</div>
 </div>
 @endsection

@@ -19,4 +19,10 @@ class Store extends Model
     	//hasmany ou seja tem muitos products para um
     	return $this->hasmany(Product::class);
     }
+
+    
+    public function orders(){
+        
+        return $this->belongsToMany(UserOrder::class, 'order_store',null, 'order_id');
+    }
 }

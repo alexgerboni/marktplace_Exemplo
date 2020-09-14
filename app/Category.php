@@ -9,7 +9,9 @@ class Category extends Model
 {  
 	protected $fillable = ['name', 'description', 'slug'];
     protected $table = 'categories';
+  
     public function products(){
+    	
     	return $this->belongsTomany(Product::class);
     }
 }
