@@ -3,6 +3,7 @@
 <head>
 	<title>Markt place</title>
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 40px;">
@@ -29,8 +30,15 @@
 	        <a class="nav-link" href="{{route('admin.categories.index')}}">Categorias</a>
 	      </li>
 	    </ul>
+    
     <div class=" my-2 my-lg-0">
 	      <ul class="navbar-nav mr-auto">
+	      	<li class="nav-item">
+	      		<a href="{{ route('admin.notification.index') }}" class="nav-link">
+	      				<span class="badge badge-danger">{{auth()->user()->unReadnotifications->count()}}</span>
+	      				<i class="fa fa-bell"></i>
+	      		</a>
+	      	</li>
 	      <li class="nav-item">
 	      <a class="nav-link" href="#" onclick="event.preventDefault();document.querySelector('form.logout').submit();">Deslogar</a>
 	       <form method="post" style="display: none;" action="{{route('logout')}}" class="logout">
@@ -39,6 +47,7 @@
 	      </li>
 	    </ul>
     </div>
+   
     <li class="nav-item">
     	<span style="color: white">{{auth()->user()->name}}</span>
     </li>

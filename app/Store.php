@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
+use App\Notifications\StoreReceiveNewOrder;
 class Store extends Model
 {
 
@@ -25,4 +26,17 @@ class Store extends Model
         
         return $this->belongsToMany(UserOrder::class, 'order_store',null, 'order_id');
     }
+
+        public function notifyStoreOwners(array $storesId = []){
+
+            //$stores = [1,2];
+
+            $stores = $this->whereIn('id', $storesId)->get();
+
+            $stores->map(function($store){
+
+                return $store->user;
+
+            })->each->notify(new StoreReceiveNewOrder());
+        }
 }

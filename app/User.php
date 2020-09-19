@@ -17,8 +17,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password'
     ];
+    protected $table = 'users';
 
     /**
      * The attributes that should be hidden for arrays.
@@ -45,5 +46,11 @@ class User extends Authenticatable
     public function orders(){
         
         return $this->hasMany(UserOrder::class);
+    }
+
+    public function routeNotificationForNexmo($notification){
+
+      $storeMobilePhone =  trim(str_replace(['(', ')', ' ', '-'],'', $this->store->mobile_phone));
+        return '55' . $storeMobilePhone;
     }
 }

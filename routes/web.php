@@ -37,23 +37,34 @@ Route::prefix('checkout')->name('checkout.')->group(function(){
 	Route::post('/proccess', 'CheckoutController@proccess')->name('proccess');
 	Route::get('/thanks', 'CheckoutController@thanks')->name('thanks');
 });
-/********************************************** INICIANDO MARKETING PLEASE*********************/
-Route::group(['middleware' => ['auth']],function(){
 
-	Route::get('my-orders', 'UserOrderController@index')->name('user.orders');
+/********************************************** INICIANDO MARKETING PLEASE*********************/
+	
+	Route::get('my-orders', 'UserOrderController@index')->name('user.orders')->middleware('auth');
+
+	Route::group(['middleware' => ['auth']],function(){
 
 	Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function(){
-		
-		/*Route::prefix('stores')->name('stores.')->group(function(){
-		
-		Route::get('/', 'StoreController@index')->name('index');
-		Route::get('/create', 'StoreController@create')->name('create');
-		Route::post('/store', 'StoreController@store')->name('store');
-		Route::get('/{store}/edit', 'StoreController@edit')->name('edit');
-		Route::post('/update/{store}', 'StoreController@update')->name('update');
-		Route::get('/destroy/{store}', 'StoreController@destroy')->name('destroy');
-		
-		});*/
+			
+			Route::get('notifications', 'NotificationController@notifications')->name('notification.index');
+			
+			Route::get('notifications/read.all', 'NotificationController@readAll')->name('read.all');
+
+			Route::get('notifications/read/{notification}', 'NotificationController@read')->name('read');
+			
+			
+
+			/*Route::prefix('stores')->name('stores.')->group(function(){
+			
+			Route::get('/', 'StoreController@index')->name('index');
+			Route::get('/create', 'StoreController@create')->name('create');
+			Route::post('/store', 'StoreController@store')->name('store');
+			Route::get('/{store}/edit', 'StoreController@edit')->name('edit');
+			Route::post('/update/{store}', 'StoreController@update')->name('update');
+			Route::get('/destroy/{store}', 'StoreController@destroy')->name('destroy');
+			
+			});*/
+
 		Route::resource('stores','StoreController');
 		Route::resource('products', 'ProductController');
 		Route::resource('categories', 'CategoryController');
@@ -65,5 +76,10 @@ Route::group(['middleware' => ['auth']],function(){
 });
 
 Auth::routes();
+
+/*Route::get('not', function(){
+	$user = \App\User::find(27);
+	return $user->tore();
+});*/
 
 //Route::get('/home', 'HomeController@index')->name('home')/*->middleware('auth')*/;
