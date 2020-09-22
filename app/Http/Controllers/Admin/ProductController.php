@@ -23,9 +23,14 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $userStore = auth()->user()->store;
+        $user = auth()->user();
 
-        $products =  $userStore->products()->paginate(30);
+        if(!$user->store()->exists()){
+            flash('É preciso ter uma loja para cadastrar produtos!')->warning();
+             return redirect()->route('admin.stores.index');
+        }
+
+        $products =  $user->$userStore->products()->paginate(30);
         
         return view('admin.products.index', compact('products'));
     }

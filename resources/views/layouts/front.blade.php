@@ -67,6 +67,12 @@
                              <li class="nav-item @if(request()->is('my-orders')) active @endif">
                                 <a class="nav-link" href="{{route('user.orders')}}">Meus pedidos</a>
                             </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="#" onclick="event.preventDefault();document.querySelector('form.logout').submit();">Deslogar</a>
+                               <form method="post" style="display: none;" action="{{route('logout')}}" class="logout">
+                                    @csrf
+                               </form>
+                            </li>
                          @endauth
                         <li class="nav-item">
                             <a class="nav-link" href="#" onclick="event.preventDefault();
