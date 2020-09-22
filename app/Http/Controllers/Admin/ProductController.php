@@ -30,7 +30,7 @@ class ProductController extends Controller
              return redirect()->route('admin.stores.index');
         }
 
-        $products =  $user->$userStore->products()->paginate(30);
+        $products =  $user->store->products()->paginate(30);
         
         return view('admin.products.index', compact('products'));
     }
